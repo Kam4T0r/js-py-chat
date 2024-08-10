@@ -1,6 +1,8 @@
 import urllib.request
 import websockets.sync.client as ws
 import threading
+from prompt_toolkit import prompt
+from prompt_toolkit.shortcuts import print_formatted_text
 
 res = urllib.request.urlopen('https://utilsy.glitch.me/rat.txt').read()
 IP =  str(res).replace('b','').replace(r"'",'')
@@ -15,12 +17,12 @@ try:
         socket.send(f'[SERVER] User "{usrName}" joined the chat')
         def wait():
             while True:
-                print(f"{socket.recv()}")
-                print('>',end='',flush=True)
+                print_formatted_text(f"{socket.recv()}\n",flush=True,end='')
+                print('',end='',flush=True)
         waitT = threading.Thread(target=wait)
         waitT.start()
         while True:
-            msg = str(input());
+            msg = prompt('>')
             socket.send(f'[{usrName}] {msg}')
 except:
     print("Couldn't establish connection")

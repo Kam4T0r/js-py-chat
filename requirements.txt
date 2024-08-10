@@ -1,1 +1,2 @@
 websockets
+prompt_toolkit
