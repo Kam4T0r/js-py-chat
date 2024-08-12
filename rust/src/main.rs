@@ -18,7 +18,7 @@ async fn main() -> Result<(),Box<dyn std::error::Error>>{
         "SERVER" =>
         {
             println!("User cannot be named server");
-            exit(0);
+            exit(1);
         }
         _=>{}
     }

@@ -33,6 +33,9 @@ func sendMsgs(usrName string,c *websocket.Conn){
 		var msg string
 		fmt.Print(">")
 		fmt.Scan(&msg)
+		if msg == "exit"{
+			os.Exit(0)
+		}
 		msg = "["+usrName+"] "+msg
 		err := c.WriteMessage(websocket.TextMessage,[]byte(msg))
 		if err != nil{

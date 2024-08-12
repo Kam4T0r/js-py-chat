@@ -14,8 +14,8 @@ try:
         usrName = str(input('Enter your username\n>')); #ask for username
         #avoid SERVER username so nobody trolls
         if usrName == 'SERVER':
-            print('there cannot be any user named server')
-            exit()
+            print("there cannot be any user named SERVER")
+            exit(0)
         socket.send(f'[SERVER] User "{usrName}" joined the chat') #send msg to server.js that usrName joined
         def wait(): #define function that waits for messages from server
             while True:
@@ -25,6 +25,8 @@ try:
         waitT.start() #start new thread
         while True: #take input 4ever from user and send it to server so it can be displayed
             msg = prompt('>') #take input
+            if msg.strip() == 'exit':
+                exit(0)
             socket.send(f'[{usrName}] {msg}') #send message to server.js
 except:
     print("Couldn't establish connection") #log error
