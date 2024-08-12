@@ -33,10 +33,10 @@ async fn main() -> Result<(),Box<dyn std::error::Error>>{
 
     let (mut socket,_response) = connect_async(url.to_string()).await.expect("Failed to connect");
 
-    socket.send(Message::text(format!("[{}] joined the chat",username.trim()).to_string())).await?;
+    socket.send(Message::text(format!("[SERVER] User '{}' joined the chat",username.trim()).to_string())).await?;
 
     let socket_clone = socket;
-    tokio::spawn(async move
+    let t1 = tokio::spawn(async move
         {
             let mut socket = socket_clone;
             while let Some(message) = socket.next().await
@@ -74,6 +74,13 @@ async fn main() -> Result<(),Box<dyn std::error::Error>>{
         let mut msg = String::new();
         std::io::stdin().read_line(&mut msg).unwrap();
 
+        if msg.trim() == "exit"
+        {
+            t1.abort();
+            break;
+        }
+
         socket.send(Message::text(format!("[{}] {}",username.trim(),msg.trim()).to_string())).await?;
     }
+    Ok(())
 }
