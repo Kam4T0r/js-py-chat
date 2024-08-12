@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
+	"strings"
+
 	"github.com/gorilla/websocket"
 )
 
@@ -53,6 +56,11 @@ func main(){
 	var usrName string
 	fmt.Print("enter your username\n>")
 	fmt.Scan(&usrName)
+
+	if strings.TrimSpace(usrName) == "SERVER"{
+		fmt.Println("there cannot be user named SERVER")
+		os.Exit(1)
+	}
 
 	c,_,err := websocket.DefaultDialer.Dial(url,nil)
 	if err != nil{
